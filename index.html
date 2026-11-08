@@ -20,7 +20,7 @@
   
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>N · M · S · P Tracker</title>
+<title>Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -31,6 +31,14 @@
   --p:#f9ccd0; --p-ink:#8f1d2c;
   --n:#fcf0b0; --n-ink:#6b5200;
   --m:#d3d3dc; --m-ink:#2f2f3b;
+  --w:#a6ebe4; --w-ink:#0b4f4a;
+  --c:#ffd1a6; --c-ink:#7a3300;
+  --y:#e2d0fa; --y-ink:#4b2a7b;
+  --g:#b5cdfb; --g-ink:#16346f;
+  --j:#1f6b3f; --j-ink:#ffffff;
+  --h:#f6a6dc; --h-ink:#7a1259;
+  --r:#e6d8c3; --r-ink:#5c4425;
+  --t:#9bdcf7; --t-ink:#0b4466;
   --today:#6d4aff; --shadow:0 20px 50px -20px rgba(60,30,90,.35);
 }
 @media (prefers-color-scheme:dark){
@@ -51,7 +59,8 @@ h1{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:28px;letter-sp
 .act{border:0;border-radius:18px;padding:14px 6px 12px;cursor:pointer;font:inherit;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:transform .12s,box-shadow .2s;position:relative}
 .act:active{transform:scale(.95)}
 .act b{font-family:'Fraunces',serif;font-size:26px;line-height:1}
-.act span{font-size:13px;font-weight:500}
+.act span{font-size:13px;font-weight:500;text-align:center;line-height:1.2;overflow-wrap:anywhere}
+.act.w span,.act.c span,.act.y span,.act.g span,.act.j span,.act.h span,.act.r span,.act.t span{font-size:11.5px}
 .act.s{background:var(--s);color:var(--s-ink)} .act.p{background:var(--p);color:var(--p-ink)} .act.n{background:var(--n);color:var(--n-ink)} .act.m{background:var(--m);color:var(--m-ink)}
 .act.on{box-shadow:inset 0 0 0 2.5px currentColor}
 .act.on::after{content:"✓";position:absolute;top:6px;right:9px;font-size:12px}
@@ -70,12 +79,13 @@ h1{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:28px;letter-sp
 .day.sel{outline:2px solid var(--today);outline-offset:-2px}
 .day:focus-visible{outline:2px solid var(--today)}
 .day.out{opacity:.3}
-.marks{display:flex;gap:2px;font-weight:700;font-size:13px;font-family:'Fraunces',serif}
+.marks{display:flex;flex-wrap:wrap;justify-content:center;gap:2px;padding:0 2px;font-weight:700;font-size:13px;font-family:'Fraunces',serif}
 .marks i{font-style:normal;width:15px;height:15px;border-radius:50%;display:grid;place-items:center;font-size:10px;background:rgba(255,255,255,.55)}
-.has-m{background:var(--m)} .has-s{background:var(--s)} .has-p{background:var(--p)} .has-n{background:var(--n)}
-.has-s .d,.has-p .d,.has-n .d,.has-m .d{color:#2a2230}
+.has-m{background:var(--m)} .has-s{background:var(--s)} .has-p{background:var(--p)} .has-n{background:var(--n)} .has-w{background:var(--w)} .has-c{background:var(--c)} .has-y{background:var(--y)} .has-g{background:var(--g)} .has-j{background:var(--j)} .has-h{background:var(--h)} .has-r{background:var(--r)} .has-t{background:var(--t)}
+.has-s .d,.has-p .d,.has-n .d,.has-m .d,.has-w .d,.has-c .d,.has-y .d,.has-g .d,.has-h .d,.has-r .d,.has-t .d{color:#2a2230}
+.has-j .d{color:#fff}
 .marks i{color:#2a2230}
-.legend{display:flex;gap:14px;justify-content:center;margin-top:16px;font-size:12px;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;row-gap:8px;gap:14px;justify-content:center;margin-top:16px;font-size:12px;color:var(--muted)}
 .legend em{font-style:normal;display:inline-flex;align-items:center;gap:6px}
 .legend u{width:12px;height:12px;border-radius:4px;display:inline-block}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
@@ -95,21 +105,40 @@ h1{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:28px;letter-sp
 .act:active{transform:scale(.95)}
 .act:focus-visible{outline:2px solid var(--today);outline-offset:2px}
 .act b,.act span{position:relative;text-shadow:0 1px 0 rgba(255,255,255,.55)}
-.act.s,.act.p,.act.n,.act.m{background:linear-gradient(150deg,var(--hi) 0%,var(--lo) 100%)}
+.act.s,.act.p,.act.n,.act.m,.act.w,.act.c,.act.y,.act.g,.act.j,.act.h,.act.r,.act.t{background:linear-gradient(150deg,var(--hi) 0%,var(--lo) 100%)}
 .act.s{--hi:#dcf8e6;--lo:#a9e5c0;--edge:rgba(40,150,90,.18);--glow:rgba(40,160,95,.55);color:var(--s-ink)}
 .act.p{--hi:#fee0e2;--lo:#f4aab4;--edge:rgba(200,60,80,.18);--glow:rgba(210,70,90,.5);color:var(--p-ink)}
 .act.n{--hi:#fff8cc;--lo:#f6e07c;--edge:rgba(190,150,20,.2);--glow:rgba(205,165,25,.55);color:var(--n-ink)}
 .act.m{--hi:#e6e6ec;--lo:#b9b9c7;--edge:rgba(70,70,95,.2);--glow:rgba(80,80,110,.45);color:var(--m-ink)}
+.act.w{--hi:#d4f8f4;--lo:#8fdcd3;--edge:rgba(20,150,140,.2);--glow:rgba(20,165,150,.55);color:var(--w-ink)}
+.act.c{--hi:#ffe6cc;--lo:#ffb878;--edge:rgba(215,110,20,.2);--glow:rgba(235,120,20,.55);color:var(--c-ink)}
+.act.y{--hi:#f1e6fe;--lo:#cfb0f3;--edge:rgba(130,70,200,.2);--glow:rgba(140,80,210,.5);color:var(--y-ink)}
+.act.g{--hi:#d9e6ff;--lo:#94b4f4;--edge:rgba(40,90,200,.2);--glow:rgba(50,100,215,.5);color:var(--g-ink)}
+.act.j{--hi:#3a9a64;--lo:#14532d;--edge:rgba(0,40,20,.35);--glow:rgba(20,100,55,.6);color:var(--j-ink)}
+.act.j::before{background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0))}
+.act.j b,.act.j span{text-shadow:0 1px 1px rgba(0,30,10,.45)}
+.act.h{--hi:#fde0f3;--lo:#f08fcf;--edge:rgba(200,50,150,.2);--glow:rgba(215,60,160,.5);color:var(--h-ink)}
+.act.r{--hi:#f4ebdc;--lo:#d9c4a1;--edge:rgba(130,95,45,.2);--glow:rgba(140,105,55,.45);color:var(--r-ink)}
+.act.t{--hi:#d3f1fd;--lo:#73c9ee;--edge:rgba(20,130,185,.2);--glow:rgba(25,140,200,.5);color:var(--t-ink)}
 .act.on{box-shadow:inset 0 0 0 2px currentColor,inset 0 1px 0 rgba(255,255,255,.9),0 10px 22px -8px var(--glow)}
 .act.on::after{z-index:1}
-.day.has-s,.day.has-p,.day.has-n,.day.has-m{border-color:rgba(255,255,255,.7);
+.day.has-s,.day.has-p,.day.has-n,.day.has-m,.day.has-w,.day.has-c,.day.has-y,.day.has-g,.day.has-j,.day.has-h,.day.has-r,.day.has-t{border-color:rgba(255,255,255,.7);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -2px 5px var(--edge),0 8px 14px -8px var(--glow)}
 .day.has-s{--edge:rgba(40,150,90,.18);--glow:rgba(40,160,95,.6)}
 .day.has-p{--edge:rgba(200,60,80,.18);--glow:rgba(210,70,90,.55)}
 .day.has-n{--edge:rgba(190,150,20,.2);--glow:rgba(205,165,25,.6)}
 .day.has-m{--edge:rgba(70,70,95,.2);--glow:rgba(80,80,110,.5)}
-.day.has-s .marks i,.day.has-p .marks i,.day.has-n .marks i,.day.has-m .marks i{background:linear-gradient(160deg,#fff,rgba(255,255,255,.55));box-shadow:0 1px 3px rgba(40,20,60,.2)}
-.day.has-s .d,.day.has-p .d,.day.has-n .d,.day.has-m .d{text-shadow:0 1px 0 rgba(255,255,255,.55)}
+.day.has-w{--edge:rgba(20,150,140,.2);--glow:rgba(20,165,150,.55)}
+.day.has-c{--edge:rgba(215,110,20,.2);--glow:rgba(235,120,20,.55)}
+.day.has-y{--edge:rgba(130,70,200,.2);--glow:rgba(140,80,210,.5)}
+.day.has-g{--edge:rgba(40,90,200,.2);--glow:rgba(50,100,215,.5)}
+.day.has-j{--edge:rgba(0,40,20,.3);--glow:rgba(20,100,55,.6)}
+.day.has-h{--edge:rgba(200,50,150,.2);--glow:rgba(215,60,160,.5)}
+.day.has-r{--edge:rgba(130,95,45,.2);--glow:rgba(140,105,55,.45)}
+.day.has-t{--edge:rgba(20,130,185,.2);--glow:rgba(25,140,200,.5)}
+.day.has-s .marks i,.day.has-p .marks i,.day.has-n .marks i,.day.has-m .marks i,.day.has-w .marks i,.day.has-c .marks i,.day.has-y .marks i,.day.has-g .marks i,.day.has-j .marks i,.day.has-h .marks i,.day.has-r .marks i,.day.has-t .marks i{background:linear-gradient(160deg,#fff,rgba(255,255,255,.55));box-shadow:0 1px 3px rgba(40,20,60,.2)}
+.day.has-s .d,.day.has-p .d,.day.has-n .d,.day.has-m .d,.day.has-w .d,.day.has-c .d,.day.has-y .d,.day.has-g .d,.day.has-h .d,.day.has-r .d,.day.has-t .d{text-shadow:0 1px 0 rgba(255,255,255,.55)}
+.day.has-j .d{text-shadow:0 1px 1px rgba(0,30,10,.5)}
 .day.pop{animation:pop .7s cubic-bezier(.2,1.4,.4,1)}
 @keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.28) rotate(-4deg);box-shadow:0 0 0 6px rgba(251,226,90,.55)}60%{transform:scale(.95) rotate(2deg)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(251,226,90,0)}}
 .day.happy{animation:happy .8s ease-in-out}
@@ -126,7 +155,7 @@ h1{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:28px;letter-sp
 <body>
 <main class="app">
   <header>
-    <div><h1>N · M · S · P Tracker</h1><div class="sub" id="todayLabel"></div></div>
+    <div><h1>Tracker</h1><div class="sub" id="todayLabel"></div></div>
     <button class="icon-btn" id="theme" aria-label="Toggle theme">◐</button>
   </header>
 
@@ -136,6 +165,14 @@ h1{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:28px;letter-sp
       <button class="act m" data-k="M"><b>M</b><span>Bating</span></button>
       <button class="act s" data-k="S"><b>S</b><span>Sex</span></button>
       <button class="act p" data-k="P"><b>P</b><span>Period</span></button>
+      <button class="act w" data-k="W"><b>W</b><span>Walk 6k Steps</span></button>
+      <button class="act c" data-k="C"><b>C</b><span>Cardio eg Cycle</span></button>
+      <button class="act y" data-k="Y"><b>Y</b><span>Yoga eg Pranayama</span></button>
+      <button class="act g" data-k="G"><b>G</b><span>Gym</span></button>
+      <button class="act j" data-k="J"><b>J</b><span>Job</span></button>
+      <button class="act h" data-k="H"><b>H</b><span>Holiday</span></button>
+      <button class="act r" data-k="R"><b>R</b><span>Rest</span></button>
+      <button class="act t" data-k="T"><b>T</b><span>Travel</span></button>
     </div>
     <div class="target" id="target"></div>
 
@@ -148,10 +185,18 @@ h1{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:28px;letter-sp
     <div class="grid" id="grid" role="grid"></div>
 
     <div class="legend">
-      <em><u style="background:var(--n)"></u>N NNN</em>
-      <em><u style="background:var(--m)"></u>M Bating</em>
-      <em><u style="background:var(--s)"></u>S Sex</em>
-      <em><u style="background:var(--p)"></u>P Period</em>
+      <em><u style="background:var(--n)"></u>N: NNN</em>
+      <em><u style="background:var(--m)"></u>M: Bating</em>
+      <em><u style="background:var(--s)"></u>S: Sex</em>
+      <em><u style="background:var(--p)"></u>P: Period</em>
+      <em><u style="background:var(--w)"></u>W: Walk 6k Steps</em>
+      <em><u style="background:var(--c)"></u>C: Cardio eg Cycle</em>
+      <em><u style="background:var(--y)"></u>Y: Yoga eg Pranayama</em>
+      <em><u style="background:var(--g)"></u>G: Gym</em>
+      <em><u style="background:var(--j)"></u>J: Job</em>
+      <em><u style="background:var(--h)"></u>H: Holiday</em>
+      <em><u style="background:var(--r)"></u>R: Rest</em>
+      <em><u style="background:var(--t)"></u>T: Travel</em>
     </div>
   </section>
 
@@ -199,6 +244,30 @@ h1{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:28px;letter-sp
     if(adding&&k==='N')celebrate(sel);
     if(adding&&k==='S')happy(sel);
     if(adding&&k==='M')splash(sel);
+    if(adding&&FIT[k])burst(sel,FIT[k]);
+  }
+
+  const FIT={W:['👟','👣','✨'],C:['🚴','💨','🔥'],Y:['🧘','🌿','✨'],G:['💪','🏋️','🔥'],J:['💼','✅','✨'],H:['🏖️','🎉','☀️'],R:['😴','🛋️','💤'],T:['✈️','🧳','🌍']};
+  function burst(key,bits){
+    const cell=document.querySelector('.day[data-k="'+key+'"]');
+    if(!cell)return;
+    if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    cell.classList.add('pop');
+    setTimeout(()=>cell.classList.remove('pop'),800);
+    const r=cell.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
+    for(let i=0;i<10;i++){
+      const el=document.createElement('div');
+      el.className='float';el.textContent=bits[i%bits.length];
+      const sz=(i===0?32:14+Math.random()*14);el.style.fontSize=sz+'px';
+      document.body.appendChild(el);
+      const x0=cx-sz/2+(Math.random()-.5)*r.width, sway=(Math.random()-.5)*80, rise=60+Math.random()*100;
+      const a=el.animate([
+        {transform:'translate('+x0+'px,'+cy+'px) scale(.3)',opacity:0},
+        {transform:'translate('+(x0+sway/2)+'px,'+(cy-rise*.5)+'px) scale(1.1)',opacity:1,offset:.3},
+        {transform:'translate('+(x0+sway)+'px,'+(cy-rise)+'px) scale(.9)',opacity:0}
+      ],{duration:1000+Math.random()*700,delay:i*40,easing:'ease-out',fill:'backwards'});
+      a.onfinish=()=>el.remove();
+    }
   }
 
   function splash(key){
@@ -309,7 +378,7 @@ h1{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:28px;letter-sp
       if(k===sel)cls.push('sel');
       let style='';
       const gloss='linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,0) 55%)';
-      const hi={S:'#dcf8e6',P:'#fee0e2',N:'#fff8cc',M:'#e6e6ec'}, lo={S:'#a9e5c0',P:'#f4aab4',N:'#f6e07c',M:'#b9b9c7'};
+      const hi={S:'#dcf8e6',P:'#fee0e2',N:'#fff8cc',M:'#e6e6ec',W:'#d4f8f4',C:'#ffe6cc',Y:'#f1e6fe',G:'#d9e6ff',J:'#3a9a64',H:'#fde0f3',R:'#f4ebdc',T:'#d3f1fd'}, lo={S:'#a9e5c0',P:'#f4aab4',N:'#f6e07c',M:'#b9b9c7',W:'#8fdcd3',C:'#ffb878',Y:'#cfb0f3',G:'#94b4f4',J:'#1f6b3f',H:'#f08fcf',R:'#d9c4a1',T:'#73c9ee'};
       if(marks.length===1)style='background:'+gloss+',linear-gradient(150deg,'+hi[marks[0]]+','+lo[marks[0]]+')';
       else if(marks.length>1){const step=100/marks.length;style='background:'+gloss+',linear-gradient(135deg,'+marks.map((c,j)=>{const mid=lo[c];return mid+' '+(j*step)+'% '+((j+1)*step)+'%';}).join(',')+')';}
       if(marks.length)cls.push('has-'+marks[0].toLowerCase());
@@ -326,9 +395,9 @@ h1{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:28px;letter-sp
     const bk=$('back'); if(bk)bk.onclick=()=>{sel=keyOf(today);view=new Date(today.getFullYear(),today.getMonth(),1);render();};
 
     // month stats
-    const pre=y+'-'+pad(m+1)+'-', c={S:0,P:0,N:0,M:0};
-    Object.keys(data).forEach(k=>{if(k.startsWith(pre))data[k].forEach(x=>c[x]++);});
-    $('stats').innerHTML=[['N','NNN','var(--n)'],['M','Bating','var(--m)'],['S','Sex','var(--s)'],['P','Period','var(--p)']].map(([k,l,col])=>'<div class="stat" style="border-bottom:4px solid '+col+'"><b>'+c[k]+'</b><span>'+l+'</span></div>').join('');
+    const pre=y+'-'+pad(m+1)+'-', c={S:0,P:0,N:0,M:0,W:0,C:0,Y:0,G:0,J:0,H:0,R:0,T:0};
+    Object.keys(data).forEach(k=>{if(k.startsWith(pre))data[k].forEach(x=>{if(x in c)c[x]++;});});
+    $('stats').innerHTML=[['N','NNN','var(--n)'],['M','Bating','var(--m)'],['S','Sex','var(--s)'],['P','Period','var(--p)'],['W','Walk','var(--w)'],['C','Cardio','var(--c)'],['Y','Yoga','var(--y)'],['G','Gym','var(--g)'],['J','Job','var(--j)'],['H','Holiday','var(--h)'],['R','Rest','var(--r)'],['T','Travel','var(--t)']].map(([k,l,col])=>'<div class="stat" style="border-bottom:4px solid '+col+'"><b>'+c[k]+'</b><span>'+l+'</span></div>').join('');
   }
 
   $('actions').addEventListener('click',e=>{const b=e.target.closest('.act');if(b)toggle(b.dataset.k);});
